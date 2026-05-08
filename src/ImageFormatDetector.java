@@ -4,11 +4,34 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
-
+/**
+ * Image Format Detector
+ *
+ * This program reads an image file and identifies its format by examining internal
+ * binary signatures (magic bytes) and structural markers, not the file extension.
+ *
+ * Supported formats: PNG, JPEG, GIF, BMP, TIFF.
+ *
+ * Detection approach:
+ * - Reads the first 32 bytes of the file header into a buffer.
+ * - Each format is checked by a dedicated method that verifies:
+ *   1. Magic bytes / signature at the start of the file.
+ *   2. Additional structural integrity checks (e.g., IHDR for PNG, EOI marker for JPEG).
+ * - If no known signature matches, the format is reported as "RAW".
+ *
+ * Why these checks matter:
+ * - File extensions can be misleading or missing.
+ * - Binary signatures uniquely identify the true format regardless of filename.
+ * - Extra validations (size, offsets, version numbers) reduce false positives.
+ */
 public class ImageFormatDetector {
 
     public static void main(String[] args) {
-        String testPath = "/home/dwieb/Downloads/mxjfiles-duck-26649.gif";
+//        String testPath = "/home/dwieb/Downloads/image/ChatGPT Image Jan 17, 2026, 10_32_40 PM.png";
+//        String testPath = "/home/dwieb/Downloads/file_example_TIFF_10MB.tiff";
+//        String testPath = "/home/dwieb/Downloads/larchick-notes-1136234.png";
+//        String testPath = "/home/dwieb/Downloads/WhatsApp Image 2026-04-06 at 10.41.35 PM.jpeg";
+        String testPath = "/home/dwieb/Downloads/bmp-large-2000px.bmp";
         try {
             String format = detectImageFormat(testPath);
             System.out.println("Format detected: " + format);
